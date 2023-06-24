@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+{% block content %}
+
+{% include "sidebar.html" %}
+<div class="container">
+    <div class="outside">
+
+
+        <div class="collective">
+            <form method="POST">
+                <h1>Add Product</h1><br>
+                <div class="form-grop">
+
+                    <label for="nameInput">Name:</label>
+                    <input type="text" class="form-control" id="nameInput" name="name" required/>
+                    <br><br>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+        </form>
+
+        <main class="table">
+            <section class="table__header">
+                <h1>Available Product</h1>
+            </section>
+            <section class="table__body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Prodcut ID</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td><a href="{{ url_for('product', product_id=product.id) }}">{{ product.id }}</a></td>
+                            <td><a href="{{ url_for('product', product_id=product.id) }}">{{ product.name }}</a></td>
+                            <td>{{ product.quantity }}</td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <button type="submit">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</div>
+{% endblock %}

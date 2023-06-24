@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="info">
+<header>
+    <h2 class="logo">AccuBook</h2>
+</header>
+
+<div class="wrapper">
+<div class="form-box register">
+    <h2>Registration</h2>
+    <form action = "/signup" method = "post">
+        <div class="input-box">
+            <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+            <input type="text" id="username" name="username"required>
+            <label>User name</label>
+        </div>
+        <div class="input-box">
+            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+            <input type="email" id="email" name="email"required>
+            <label>Email</label>
+        </div>
+        <div class="input-box">
+            <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+            <input type="password" id="password" name="password"required>
+            <label>Password</label>
+        </div>
+
+        <div class="remember-forgot">
+            <label><input type="checkbox">I agree to the term & conditions</label>
+        </div>
+
+        <button type="Register" class="btn">Register</button> 
+        <div class="login-register">
+            <p>Already have an account? <a href="{{ url_for('login') }}" class="login-link">Login</a></p>
+        </div> 
+        
+    </form>
+</div>
+</div>
+</div>
+
+{% endblock %}   

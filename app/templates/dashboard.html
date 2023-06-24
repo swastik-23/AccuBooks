@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+{% block content %}
+{% include "sidebar.html" %}
+<div class="container">
+    <div class="combine">
+        
+        <div class="daily">
+            <h1>Today's Overview</h1> <br>
+            <h2>Today's Sales: Rs {{today.sales}}</h2><br>
+            <h2>Today's Purchases: Rs {{today.purchases}}</h2><br>
+            <h2>Date : {{today.date}}</h2><br>
+        </div>
+        <img src="{{ url_for('static', filename='assets/monthly_graph.png') }}" alt="Monthly Graph">
+        <main class="table">
+            <div class="purchase">
+                <section class="table__header">
+                    <h1>Latest Purchase</h1>
+                </section>
+                <section class="table__body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Purchase ID</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for purchase in latest_purchases %}
+                            <tr>
+                                <td>{{ purchase.id }}</td>
+                                <td>{{ purchase.product.name }}</td>
+                                <td>{{ purchase.quantity }}</td>
+                                <td>{{ purchase.price }}</td>
+                                <td>{{ purchase.date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+
+        </main>
+
+        <main class="table">
+            <div class="sales">
+                <section class="table__header">
+                    <h1>Latest Sales</h1>
+                </section>
+
+                <section class="table__body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sales ID</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in latest_sales %}
+                            <tr>
+                                <td>{{ sale.id }}</td>
+                                <td>{{ sale.product.name }}</td>
+                                <td>{{ sale.quantity }}</td>
+                                <td>{{ sale.price }}</td>
+                                <td>{{ sale.date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+        </main>
+    </div>
+
+</div>
+
+
+{% endblock %}

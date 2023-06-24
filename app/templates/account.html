@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+{% block content %}
+{% include "sidebar.html" %}
+<div class="container">
+    <div class="outside">
+        <div class="collective">
+            <h1>Account Overview</h1> <br>
+            <h2>Total Sales: Rs {{ income }}</h2><br>
+            <h2>Total Purchases: Rs {{ expenditure }}</h2><br>
+            <h2>Margin: Rs {{income-expenditure}}</h2><br>
+        </div>
+
+        <div class="combine">
+            <main class="table">
+                <section class="table__header">
+                    <h1>Monthly Purchase</h1>
+                </section>
+                <section class="table__body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Purchase ID</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for purchase in monthly_purchases %}
+                            <tr>
+                                <td>{{ purchase.id }}</td>
+                                <td>{{ purchase.product.name }}</td>
+                                <td>{{ purchase.quantity }}</td>
+                                <td>{{ purchase.price }}</td>
+                                <td>{{ purchase.date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+
+            <main class="table">
+                <section class="table__header">
+                    <h1>Monthly Sales</h1>
+                </section>
+                <section class="table__body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sales ID</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in monthly_sales %}
+                            <tr>
+                                <td>{{ sale.id }}</td>
+                                <td>{{ sale.product.name }}</td>
+                                <td>{{ sale.quantity }}</td>
+                                <td>{{ sale.price }}</td>
+                                <td>{{ sale.date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

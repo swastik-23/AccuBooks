@@ -1,0 +1,57 @@
+<nav>
+    <div class="navbar">
+        <div class="logo">
+           <p>AccuBooks</p>
+        </div>
+
+    </div>
+    <div class="input-group">
+        <input type="text" id="searchTermNav" onkeyup="searchProduct(event)" placeholder="Search..." name="product_name" required>
+        <input type="hidden" id="product_id_nav" name="product_id">
+        <div id="list-container-nav" class="hidden">
+            <ul id="listNav">
+                {% for product in products %}
+                <li class="item" onclick="selectItemProduct(this)" value="{{ product.id }}">{{ product.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <i class="fa-solid fa-magnifying-glass magnify-glass" onclick="searchProduct(event)"></i>
+    </div>
+    <script>
+        function searchProduct(event) {
+            if (event.key === "Enter" || event.target.nodeName === "I") {
+                var searchTermNav = document.getElementById("searchTermNav").value.toLowerCase();
+                var items = document.getElementsByClassName("item");
+                var productFound = false;
+    
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    var text = item.textContent.toLowerCase();
+    
+                    if (text.includes(searchTermNav)) {
+                        item.style.display = "block";
+                        productFound = true;
+                    } else {
+                        item.style.display = "none";
+                    }
+                }
+    
+                var listContainer = document.getElementById("list-container-nav");
+    
+                if (productFound) {
+                    var selectedProduct = document.querySelector(".item:not([style='display: none;'])");
+                    var searchTermNav = selectedProduct.textContent;
+                    var productId = selectedProduct.getAttribute("value");
+                    document.getElementById("searchTermNav").value = searchTermNav;
+                    document.getElementById("product_id_nav").value = productId;
+                    window.location.href = "/product/" + productId;
+                }
+            }
+        }
+    </script>
+
+    <ul>
+        <li><a href="{{ url_for('change_password') }}"><i class="fas fa-user"></i></a></li>
+        <li><a href="#"><i class="fa-regular fa-bell"></i></a></li>
+    </ul>
+</nav>

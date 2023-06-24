@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+{% block content %}
+{% include "sidebar.html" %}
+<div class="container">
+    <div class="outside">
+        <div class="collective">
+
+            <form method="POST">
+                <h1>Add Sales</h1><br>
+                
+                    <div class="form-group">
+                        <label for="productSelect">Product:</label>
+                        <input type="text" id="searchTerm" onkeyup="search()" placeholder="Search..." name="product_name" required>
+                        <input type="hidden" id="product_id" name="product_id">
+                        
+                        <div id="list-container" class="hidden">
+                            <ul id="list">
+                                {% for product in products %}
+                                <li class="item" onclick="selectItem(this)" value="{{ product.id }}">{{ product.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateInput">Date:</label>
+                        <input type="date" class="form-control" id="dateInput" name="date"  required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantityInput">Quantity:</label>
+                        <input type="number" class="form-control" id="quantityInput" name="quantity"  required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="priceInput">Price:</label>
+                        <input type="number" class="form-control" id="priceInput" name="price"  required/>
+                    </div>
+                <br>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+
+        <main class="table">
+            <section class="table__header">
+                <h1>Sales List</h1><br>
+            </section>
+            <section class="table__body">
+                <table>
+                    <thead>
+                        <tr>
+                            <h2>
+                                <th> Sales Id </th>
+                                <th> Product </th>
+                                <th> Quantity </th>
+                                <th> Price </th>
+                                <th> Date </th>
+                                <th> Edit </th>
+                                <th> Delete </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sale in sales %}
+                        <tr>
+                            <td>{{ sale.id }}</td>
+                            <td>{{ sale.product.name }}</td>
+                            <td contenteditable="true" id="quantity-{{ sale.id }}">{{ sale.quantity }}</td>
+                            <td contenteditable="true" id="price-{{ sale.id }}">{{ sale.price }}</td>
+                            <td contenteditable="true" id="date-{{ sale.id }}">{{ sale.date }}</td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="sales_id" value="{{ sale.id }}">
+                                    <input type="hidden" name="product_id" value="{{ sale.product.id }}">
+                                    <input type="hidden" name="quantity" value="" id="quantity-input-{{ sale.id }}">
+                                    <input type="hidden" name="price" value="" id="price-input-{{ sale.id }}">
+                                    <input type="hidden" name="date" value="" id="date-input-{{ sale.id }}">
+                                    <button type="submit" onclick="updateSales('{{ sale.id }}')">Update</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="sales_id" value="{{ sale.id }}">
+                                    <button type="submit">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+            </section>
+        </main>
+        <script>
+            function updateSales(saleId) {
+                const quantity = document.getElementById("quantity-" + saleId).innerText;
+                const price = document.getElementById("price-" + saleId).innerText;
+                const date = document.getElementById("date-" + saleId).innerText;
+        
+                document.getElementById("quantity-input-" + saleId).value = quantity;
+                document.getElementById("price-input-" + saleId).value = price;
+                document.getElementById("date-input-" + saleId).value = date;
+            }
+        </script>
+    </div>
+</div>
+{% endblock %}

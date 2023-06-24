@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+{% block content %}
+
+{% include "sidebar.html" %}
+<div class="container">
+
+
+    <div class="outside">
+
+        <div class="collective">
+
+            <form method="POST">
+                <h1>Add Purchase</h1><br>
+                
+                    <div class="form-group">
+                        <label for="productSelect">Product:</label>
+                        <input type="text" id="searchTerm" onkeyup="search()" placeholder="Search..." name="product_name" required>
+                        <input type="hidden" id="product_id" name="product_id">
+                        
+                        <div id="list-container" class="hidden">
+                            <ul id="list">
+                                {% for product in products %}
+                                <li class="item" onclick="selectItem(this)" value="{{ product.id }}">{{ product.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateInput">Date:</label>
+                        <input type="date" class="form-control" id="dateInput" name="date"  required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantityInput">Quantity:</label>
+                        <input type="number" class="form-control" id="quantityInput" name="quantity"  required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="priceInput">Price:</label>
+                        <input type="number" class="form-control" id="priceInput" name="price"  required/>
+                    </div>
+                <br>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        </div>
+        <main class="table">
+            <section class="table__header">
+                <h1>Purchase List</h1><br>
+            </section>
+            <section class="table__body">
+                <table>
+                    <thead>
+                        <tr>
+                            <h2>
+                                <th> Purchase Id </th>
+                                <th> Product </th>
+                                <th> Quantity </th>
+                                <th> Price </th>
+                                <th> Date </th>
+                                <th> Edit </th>
+                                <th> Delete </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for purchase in purchases %}
+                        <tr>
+                            <td>{{ purchase.id }}</td>
+                            <td>{{ purchase.product.name }}</td>
+                            <td contenteditable="true" id="quantity-{{ purchase.id }}">{{ purchase.quantity }}</td>
+                            <td contenteditable="true" id="price-{{ purchase.id }}">{{ purchase.price }}</td>
+                            <td contenteditable="true" id="date-{{ purchase.id }}">{{ purchase.date }}</td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="purchase_id" value="{{ purchase.id }}">
+                                    <input type="hidden" name="product_id" value="{{ purchase.product.id }}">
+                                    <input type="hidden" name="quantity" value="" id="quantity-input-{{ purchase.id }}">
+                                    <input type="hidden" name="price" value="" id="price-input-{{ purchase.id }}">
+                                    <input type="hidden" name="date" value="" id="date-input-{{ purchase.id }}">
+                                    <button type="submit" onclick="updatePurchase('{{ purchase.id }}')">Update</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="purchase_id" value="{{ purchase.id }}">
+                                    <button type="submit">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </section>
+        </main>
+
+        <script>
+            function updatePurchase(purchaseId) {
+                const quantity = document.getElementById("quantity-" + purchaseId).innerText;
+                const price = document.getElementById("price-" + purchaseId).innerText;
+                const date = document.getElementById("date-" + purchaseId).innerText;
+
+                document.getElementById("quantity-input-" + purchaseId).value = quantity;
+                document.getElementById("price-input-" + purchaseId).value = price;
+                document.getElementById("date-input-" + purchaseId).value = date;
+            }
+        </script>
+
+
+    </div>
+
+</div>
+<input list="brow" class="form-control" id="productSelect" name="product_id">
+<datalist id="brow">
+    {% for product in products %}
+    <option value="{{ product.name }}">{{ product.name }}</option>
+    {% endfor %}
+</datalist>
+
+<script>
+    const productSelect = document.getElementById('productSelect');
+    const dataList = document.getElementById('brow');
+
+    productSelect.addEventListener('change', function () {
+        const selectedOption = Array.from(dataList.options)
+            .find(option => option.value === this.value);
+
+        if (selectedOption) {
+            const productId = selectedOption.text;
+            this.setAttribute('data-product-id', productId);
+        }
+    });
+</script>
+
+
+
+{% endblock %}
