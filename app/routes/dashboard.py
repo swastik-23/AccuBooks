@@ -8,7 +8,8 @@ from sqlalchemy import extract
 import matplotlib.pyplot as plt
 import os
 import numpy as np
-from matplotlib.ticker import ScalarFormatter
+
+import matplotlib.ticker as ticker
 
 
 
@@ -34,8 +35,10 @@ class DashboardView(MethodView):
         monthly_sales = db.session.query(models.Sales).filter(models.Sales.user_id==user.id, extract('month', models.Sales.date) == month, extract('year', models.Sales.date) == year).order_by(models.Sales.date.desc(), models.Sales.id.desc()).all()
 
 
+
         x_ticks = np.arange(1, 32, 5)
         fig, ax = plt.subplots(figsize=(10, 4))
+
         if monthly_purchases is not None:
             purchase_prices = [(purchase.price*purchase.quantity) for purchase in monthly_purchases]
             purchase_dates = [purchase.date.day for purchase in monthly_purchases]
@@ -51,13 +54,18 @@ class DashboardView(MethodView):
                 ax.plot(sales_dates, sales_prices, color='red', label='Monthly Sales')
             else:
                 ax.scatter(sales_dates, sales_prices, color='red', label='Monthly Sales')
+
+        def fmt(x, pos):
+            return '{:.0f}'.format(x)
+
+        ax.yaxis.set_major_formatter(ticker.FuncFormatter(fmt))
+
         ax.set_xticks(x_ticks)
         ax.set_xlabel('Date')
         ax.set_ylabel('Price')
         ax.set_title('Monthly Purchases and Sales')
-        ax.yaxis.set_major_formatter(ScalarFormatter(useOffset=False))
         ax.legend()
-        image_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'assets', 'monthly_graph.png')
+        image_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'assets', f'monthly_graph_{user.id}.png')
         plt.savefig(image_path)
 
         return render_template('dashboard.html', latest_purchases=latest_purchases, latest_sales=latest_sales, products=products,today=today)
