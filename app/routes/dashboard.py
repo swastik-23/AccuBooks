@@ -68,7 +68,7 @@ class DashboardView(MethodView):
         image_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'assets', f'monthly_graph_{user.id}.png')
         plt.savefig(image_path)
 
-        return render_template('dashboard.html', latest_purchases=latest_purchases, latest_sales=latest_sales, products=products,today=today)
+        return render_template('dashboard.html', latest_purchases=latest_purchases, latest_sales=latest_sales, products=products,today=today, user_id=str(user.id))
 
     def post(self):
         pass

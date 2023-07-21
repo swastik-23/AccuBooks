@@ -13,7 +13,7 @@
             <h2>Today's Purchases: Rs {{today.purchases}}</h2><br>
             <h2>Date : {{today.date}}</h2><br>
         </div>
-        <img src="{{ url_for('static', filename='assets/monthly_graph.png') }}" alt="Monthly Graph">
+        <img src="{{ url_for('static', filename='assets/monthly_graph_' + user_id+'.png') }}" alt="">
         <main class="table">
             <div class="purchase">
                 <section class="table__header">
@@ -26,7 +26,7 @@
                                 <th>Purchase ID</th>
                                 <th>Product</th>
                                 <th>Quantity</th>
-                                <th>Price</th>
+                                <th>Rate</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -60,7 +60,7 @@
                                 <th>Sales ID</th>
                                 <th>Product</th>
                                 <th>Quantity</th>
-                                <th>Price</th>
+                                <th>Rate</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
