@@ -30,3 +30,4 @@ class AccountView(MethodView):
 
     def post(self):
         pass
+    

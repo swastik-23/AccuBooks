@@ -8,15 +8,24 @@
     <div class="outside">
         <div class="collective">
             <h1>Account Overview</h1> <br>
-            <h2>Total Sales: Rs {{ income }}</h2><br>
-            <h2>Total Purchases: Rs {{ expenditure }}</h2><br>
+            <h2>Total Sales: Rs {{ income }}</h2>
+            <h2>Total Purchases: Rs {{ expenditure }}</h2>
             <h2>Margin: Rs {{income-expenditure}}</h2><br>
+            <div class="form-group">
+            <h3><label for ="SortBy">Sort by:</label>
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="Month">Monthly</option>
+                    <option value="Quater">Quaterly</option>
+                    <option value="Semester">Semesterly</option>
+                    <option value="Annual">Annually</option>
+                </select></h3>
+            </div>
         </div>
 
         <div class="combine">
             <main class="table">
                 <section class="table__header">
-                    <h1>Monthly Purchase</h1>
+                    <h1> Purchase History</h1>
                 </section>
                 <section class="table__body">
                     <table>
@@ -46,7 +55,7 @@
 
             <main class="table">
                 <section class="table__header">
-                    <h1>Monthly Sales</h1>
+                    <h1>Sales History</h1>
                 </section>
                 <section class="table__body">
                     <table>

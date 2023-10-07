@@ -42,4 +42,6 @@ def create_router(app):
     app.add_url_rule('/sales', view_func=sales.SalesView.as_view('sales'))
     app.add_url_rule('/changepassword', view_func=profile.ProfileView.as_view('change_password'))
     app.add_url_rule('/logout', view_func=logout.LogoutView.as_view('logout'))
+    # app.add_url_rule('/notification',view_func=notification.Notificationview.as_view('notification'
+    # ))
     
